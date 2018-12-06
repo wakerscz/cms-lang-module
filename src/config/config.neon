@@ -4,6 +4,7 @@ services:
     - Wakers\LangModule\Repository\LangSystemRepository
 
     # Managers
+    - Wakers\LangModule\Manager\LangManager
     - Wakers\LangModule\Manager\LangSystemManager
 
     # Translator
@@ -16,3 +17,7 @@ services:
 latte:
     macros:
         - Wakers\LangModule\Macro\Translate
+
+console:
+    commands:
+        - Wakers\LangModule\Console\LangCreateCommand
