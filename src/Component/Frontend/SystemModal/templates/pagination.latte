@@ -1,0 +1,30 @@
+{**
+ * Copyright (c) 2018 Wakers.cz
+ *
+ * @author Jiří Zapletal (http://www.wakers.cz, zapletal@wakers.cz)
+ *
+ *}
+
+<div class="wakers_pagination">
+    {if !$paginator->isFirst()}
+        <a href={link paginate! 1}"" class="page-link" data-wakers-progress-button>První</a>
+    {/if}
+
+    {if !$paginator->isFirst()}
+        <a class="page-link" href="{link paginate! $paginator->page-1}" data-wakers-progress-button>Předchozí</a>
+    {/if}
+
+    {for $i = ($paginator->page - 5); $i < ($paginator->page + 5); $i++}
+        {if $i > 0 && $i <= $paginator->pageCount}
+            <a {if $paginator->page ===  $i}class="active"{/if} href="{link paginate! $i}" data-wakers-progress-button>{$i}</a>
+        {/if}
+    {/for}
+
+    {if !$paginator->isLast()}
+        <a class="page-link" href="{link paginate! $paginator->page+1}" data-wakers-progress-button>Další</a>
+    {/if}
+
+    {if !$paginator->isLast()}
+        <a class="page-link" href="{link paginate! $paginator->pageCount}" data-wakers-progress-button>Poslední</a>
+    {/if}
+</div>

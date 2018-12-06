@@ -1,0 +1,18 @@
+services:
+    # Repositories
+    - Wakers\LangModule\Repository\LangRepository(%adminLang%)
+    - Wakers\LangModule\Repository\LangSystemRepository
+
+    # Managers
+    - Wakers\LangModule\Manager\LangSystemManager
+
+    # Translator
+    - Wakers\LangModule\Translator\Translate
+
+    # Components
+    - Wakers\LangModule\Component\Frontend\SystemModal\ISystemModal
+
+
+latte:
+    macros:
+        - Wakers\LangModule\Macro\Translate

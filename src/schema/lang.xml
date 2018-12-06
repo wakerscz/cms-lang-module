@@ -1,0 +1,8 @@
+<table name="lang" namespace="LangModule\Database" package="./lang-module/">
+    <column name="id" type="INTEGER" required="TRUE" primaryKey="TRUE" autoIncrement="TRUE"/>
+    <column name="name" type="VARCHAR" required="TRUE" size="8"/>
+
+    <unique>
+        <unique-column name="name"/>
+    </unique>
+</table>
