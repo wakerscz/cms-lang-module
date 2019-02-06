@@ -30,7 +30,7 @@ $(function ()
     };
 
 
-    $.i18nGet = function (slug, params = {})
+    $.i18nGet = function (slug, params)
     {
         if (typeof i18n[dLang] === 'undefined')
         {
