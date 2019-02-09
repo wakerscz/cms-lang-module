@@ -18,7 +18,6 @@ use Wakers\BaseModule\Util\AjaxValidate;
 use Wakers\LangModule\Manager\LangSystemManager;
 use Wakers\LangModule\Repository\LangRepository;
 use Wakers\LangModule\Repository\LangSystemRepository;
-use Wakers\LangModule\Translator\Translate;
 
 
 class SystemModal extends BaseControl
@@ -57,12 +56,6 @@ class SystemModal extends BaseControl
 
 
     /**
-     * @var Translate
-     */
-    protected $translate;
-
-
-    /**
      * @var callable
      */
     public $onSave = [];
@@ -86,18 +79,15 @@ class SystemModal extends BaseControl
      * @param LangSystemRepository $langSystemRepository
      * @param LangRepository $langRepository
      * @param LangSystemManager $langSystemManager
-     * @param Translate $translate
      */
     public function __construct(
         LangSystemRepository $langSystemRepository,
         LangRepository $langRepository,
-        LangSystemManager $langSystemManager,
-        Translate $translate
+        LangSystemManager $langSystemManager
     ) {
         $this->langSystemRepository = $langSystemRepository;
         $this->langRepository = $langRepository;
         $this->langSystemManager = $langSystemManager;
-        $this->translate = $translate;
     }
 
 
@@ -150,7 +140,7 @@ class SystemModal extends BaseControl
             $value = isset($i18ns[$lang->getName()]) ? $i18ns[$lang->getName()]->getMessage() : NULL;
 
             $form->addText($lang->getName(), $lang->getName())
-                ->setRequired("Language: {$lang->getName()} is required.")
+                ->setRequired("Jazyk: {$lang->getName()} je povinný.")
                 ->setDefaultValue($value);
 
             $params = $langSystems[$langSystemId]->getParams();
@@ -159,7 +149,7 @@ class SystemModal extends BaseControl
             {
                 foreach (explode(' | ', $params) as $param)
                 {
-                    $form[$lang->getName()]->addRule(Form::PATTERN, "You must use {$param} variable.", ".*{$param}.*");
+                    $form[$lang->getName()]->addRule(Form::PATTERN, "Musíte použít tyto '{$param}' proměnné.", ".*{$param}.*");
                 }
             }
         }
@@ -195,8 +185,8 @@ class SystemModal extends BaseControl
             $this->langSystemManager->save($langSystem, $i18ns);
 
             $this->presenter->notificationAjax(
-                $this->translate->translate('Translation saved'),
-                $this->translate->translate('Translation was successfully saved'),
+                'Překlad uložen',
+                'Překlad byl úspěšně uložen',
                 'success',
                 FALSE
             );
