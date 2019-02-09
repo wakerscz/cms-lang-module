@@ -133,7 +133,7 @@ class LangSystemRepository
         $content = file_get_contents('nette.safe://' . self::FILE_I18N_SYSTEM);
         $matches = NULL;
 
-        preg_match_all('/[^\/\/]\$\.i18nAdd\(\'(.*)\'\,\s\'(.*)\',\s\'(.*)\'\)\;/', $content, $matches);
+        preg_match_all('/[^\/\/]\$\.i18nSet\(\'(.*)\'\,\s\'(.*)\',\s\'(.*)\'\)\;/', $content, $matches);
 
         $translations = [];
 

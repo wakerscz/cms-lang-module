@@ -19,7 +19,7 @@ $(function ()
     var dLang = $html.attr('lang').length !== 0 ? $html.attr('lang') : 'en';
 
 
-    $.i18nAdd = function (lang, slug, message)
+    $.i18nSet = function (lang, slug, message)
     {
         if (typeof i18n[lang] === 'undefined')
         {
@@ -45,7 +45,7 @@ $(function ()
             $.notification(
                 'error',
                 'Missing (' + dLang + ') translation',
-                '$.i18nAdd(\'' + dLang + '\', \'' + slug + '\', \'...\');'
+                '$.i18nSet(\'' + dLang + '\', \'' + slug + '\', \'...\');'
             );
 
             return slug;
