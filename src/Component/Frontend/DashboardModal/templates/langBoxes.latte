@@ -1,19 +1,22 @@
 {**
  * Copyright (c) 2018 Wakers.cz
- *
  * @author Jiří Zapletal (http://www.wakers.cz, zapletal@wakers.cz)
- *
  *}
 
-<div class="wakers_dashboard">
-    <div class="modal_subtitle">Překlady</div>
+{if $user->isAllowed(Wakers\LangModule\Security\LangAuthorizator::RES_MODULE)
+    && $user->isAllowed(Wakers\LangModule\Security\LangAuthorizator::RES_SUMMARY)}
 
-    <div class="dashboard_boxes">
-        <div class="dashboard_box">
-            <a href="#" data-wakers-modal-open="wakers_lang_system_modal">
-                Systémové překlady<br>
-                <!--small>(<strong>150</strong> textů k překladu)</small-->
-            </a>
-        </div>
+    <div class="wakers_dashboard">
+        <div class="modal_subtitle">Překlady</div>
+
+        {if $user->isAllowed(Wakers\LangModule\Security\LangAuthorizator::RES_SUMMARY)}
+            <div class="dashboard_boxes">
+                <div class="dashboard_box">
+                    <a href="#" data-wakers-modal-open="wakers_lang_system_modal">
+                        Systémové překlady
+                    </a>
+                </div>
+            </div>
+        {/if}
     </div>
-</div>
+{/if}

@@ -15,14 +15,17 @@ use Nette\Application\UI\Multiplier;
 use Nette\Utils\Paginator;
 use Wakers\BaseModule\Component\Frontend\BaseControl;
 use Wakers\BaseModule\Util\AjaxValidate;
+use Wakers\BaseModule\Util\SetDisabledForm;
 use Wakers\LangModule\Manager\LangSystemManager;
 use Wakers\LangModule\Repository\LangRepository;
 use Wakers\LangModule\Repository\LangSystemRepository;
+use Wakers\LangModule\Security\LangAuthorizator;
 
 
 class SystemModal extends BaseControl
 {
     use AjaxValidate;
+    use SetDisabledForm;
 
 
     /**
@@ -159,6 +162,12 @@ class SystemModal extends BaseControl
 
         $form->onValidate[] = function (Form $form) { $this->validate($form); };
         $form->onSuccess[] = function (Form $form) { $this->success($form); };
+
+
+        if (!$this->presenter->user->isAllowed(LangAuthorizator::RES_FORM))
+        {
+            $this->setDisabledForm($form, TRUE);
+        }
 
         return $form;
     }

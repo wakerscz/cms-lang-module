@@ -18,6 +18,12 @@ latte:
     macros:
         - Wakers\LangModule\Macro\Translate
 
+
 console:
     commands:
         - Wakers\LangModule\Console\LangCreateCommand
+
+
+parameters:
+    acl:
+        - Wakers\LangModule\Security\LangAuthorizator

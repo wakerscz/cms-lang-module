@@ -5,92 +5,94 @@
  *
  *}
 
-<div class="wakers_modal" id="wakers_lang_system_modal">
+{if $user->isAllowed(Wakers\LangModule\Security\LangAuthorizator::RES_SUMMARY)}
+    <div class="wakers_modal" id="wakers_lang_system_modal">
 
-    <div class="modal_title">
-        <a href="#" class="close" data-wakers-modal-close>&#x2715</a>
-        Systémové překlady
-    </div>
+        <div class="modal_title">
+            <a href="#" class="close" data-wakers-modal-close>&#x2715</a>
+            Systémové překlady
+        </div>
 
-    <div class="modal_subtitle">
-        Statické - JS
-    </div>
+        <div class="modal_subtitle">
+            Statické - JS
+        </div>
 
 
-    <div class="wakers_form">
+        <div class="wakers_form">
 
-        <div class="form_header">
-            <div class="form_sub_title">
-                <span class="color_green">[ <strong>Upozornění:</strong> Statické překlady nelze měnit ]</span>
+            <div class="form_header">
+                <div class="form_sub_title">
+                    <span class="color_green">[ <strong>Upozornění:</strong> Statické překlady nelze měnit ]</span>
+                </div>
+            </div>
+
+            <div class="form_group">
+                <div class="group_control w_100">
+                    <div class="textarea" readonly>
+                        {foreach $staticTranslations as $translation}
+                            <div {if !$translation->message}class="color_red"{/if}>
+                                $.i18nSet('{$translation->lang}', '{$translation->slug}, '{$translation->message}');
+                            </div>
+                        {/foreach}
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="form_group">
-            <div class="group_control w_100">
-                <div class="textarea" readonly>
-                    {foreach $staticTranslations as $translation}
-                        <div {if !$translation->message}class="color_red"{/if}>
-                            $.i18nSet('{$translation->lang}', '{$translation->slug}, '{$translation->message}');
+        <div class="modal_subtitle">
+            Měnitelné - DB ({$count})
+        </div>
+
+        {snippet langSystems}
+            {foreach $langSystems as $langSystem}
+
+                {var $id = $langSystem->getId()}
+
+                {form translateForm-$id 'class' => 'wakers_form form_bordered'}
+                    <div class="form_header">
+                        <div class="form_title">
+                            <strong>Slug:</strong> {$langSystem->getSlug()}
+                        </div>
+
+                        <div class="form_sub_title">
+                            {if $langSystemManager->generateSlug($langSystem->getDefaultMessage()) !== $langSystem->getSlug()}
+                                <span class="color_green">[ <strong>Upozornění:</strong> Rozdílný slug v DB | Rozdílná message v souboru ]</span><br>
+                            {/if}
+
+                            {if $langSystem->getParams()}
+                                [ <strong>Proměnné:</strong> {$langSystem->getParams()} ]
+                            {/if}
+                        </div>
+                    </div>
+
+                    {foreach $langs as $lang}
+                        <div class="form_group">
+                            <div class="group_label">
+                                <label n:name="$lang->getName()">{$lang->getName()}:</label>
+                            </div>
+
+                            <div class="group_control">
+                                <input n:name="$lang->getName()" type="text">
+                            </div>
                         </div>
                     {/foreach}
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <div class="modal_subtitle">
-        Měnitelné - DB ({$count})
-    </div>
 
-    {snippet langSystems}
-        {foreach $langSystems as $langSystem}
-
-            {var $id = $langSystem->getId()}
-
-            {form translateForm-$id 'class' => 'wakers_form form_bordered'}
-                <div class="form_header">
-                    <div class="form_title">
-                        <strong>Slug:</strong> {$langSystem->getSlug()}
-                    </div>
-
-                    <div class="form_sub_title">
-                        {if $langSystemManager->generateSlug($langSystem->getDefaultMessage()) !== $langSystem->getSlug()}
-                            <span class="color_green">[ <strong>Upozornění:</strong> Rozdílný slug v DB | Rozdílná message v souboru ]</span><br>
-                        {/if}
-
-                        {if $langSystem->getParams()}
-                            [ <strong>Proměnné:</strong> {$langSystem->getParams()} ]
-                        {/if}
-                    </div>
-                </div>
-
-                {foreach $langs as $lang}
-                    <div class="form_group">
-                        <div class="group_label">
-                            <label n:name="$lang->getName()">{$lang->getName()}:</label>
-                        </div>
-
+                    <div class="form_group mb-0">
+                        <div class="group_label"></div>
                         <div class="group_control">
-                            <input n:name="$lang->getName()" type="text">
+                            <button n:name="save" type="submit" class="wakers_btn" data-wakers-progress-button>Uložit překlady</button>
                         </div>
                     </div>
-                {/foreach}
+                {/form}
 
-
-                <div class="form_group mb-0">
-                    <div class="group_label"></div>
-                    <div class="group_control">
-                        <button n:name="save" type="submit" class="wakers_btn" data-wakers-progress-button>Uložit překlady</button>
-                    </div>
-                </div>
-            {/form}
-
-        {/foreach}
-    {/snippet}
-
-    {snippetArea paginator}
-        {snippet pagination}
-            {include pagination.latte}
+            {/foreach}
         {/snippet}
-    {/snippetArea}
-</div>
+
+        {snippetArea paginator}
+            {snippet pagination}
+                {include pagination.latte}
+            {/snippet}
+        {/snippetArea}
+    </div>
+{/if}
